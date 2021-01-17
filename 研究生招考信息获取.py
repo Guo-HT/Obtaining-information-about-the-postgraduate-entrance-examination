@@ -233,6 +233,5 @@ if __name__ == '__main__':
             break
     yz = Yanzhao(sub_num, file_name, file_type)
     yz.run()
-    input('文件以保存在当前文件夹中!!!\n按任意键退出')
+    input('\n\n文件以保存在当前文件夹中!!!\n\n按任意键退出')
 
-# D:\GuoHanting\Python_proj\Web_Crawler\研招+excel.py
