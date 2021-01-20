@@ -37,10 +37,14 @@ class Yanzhao(object):
         page_response_content = page_response.content.decode()
         # 获取页数
         page_content_obj = etree.HTML(page_response_content)
-        page_obj_list = page_content_obj.xpath('//div[@class="zsml-page-box"]//li[last()-1]')
-        # print(page_obj)
-        page_list = page_obj_list[0].xpath('.//text()')
-        page = int(page_list[0])
+        try:
+            page_obj_list = page_content_obj.xpath('//div[@class="zsml-page-box"]//li[last()-1]')
+            page_list = page_obj_list[0].xpath('.//text()')
+            page = int(page_list[0])
+        except:
+            page_obj_list = page_content_obj.xpath('//div[@class="zsml-page-box"]//li[last()-2]')
+            page_list = page_obj_list[0].xpath('.//text()')
+            page = int(page_list[0])
         print('总页数：', page)
         return page
 
@@ -208,7 +212,7 @@ class Yanzhao(object):
                     # 请求每个研究方向的主页，提取考试科目
                     school_line_list, school_line_str = self.get_exam(exam_info_url, school_line_list, school_line_str)
                 school_line_str += '\n'
-                print(school_line_list[0], "完成")
+                print(school_line_list[0], " done")
                 # print(school_line_str)
 
                 self.save_school_line(school_line_list, num, school_line_str)
@@ -232,6 +236,10 @@ if __name__ == '__main__':
         if file_type == '1' or file_type == '2':
             break
     yz = Yanzhao(sub_num, file_name, file_type)
-    yz.run()
+    try:
+        yz.run()
+    except Exception as e:
+        print('出现错误：')
+        print(e)
     input('\n\n文件以保存在当前文件夹中!!!\n\n按任意键退出')
 
